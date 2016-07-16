@@ -2,7 +2,9 @@
 
 namespace ZfcUser\Authentication\Adapter;
 
+use DateTime;
 use Zend\Authentication\Result as AuthenticationResult;
+use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Session\Container as SessionContainer;
@@ -10,7 +12,7 @@ use ZfcUser\Authentication\Adapter\AdapterChainEvent as AuthEvent;
 use ZfcUser\Mapper\User as UserMapperInterface;
 use ZfcUser\Options\AuthenticationOptionsInterface;
 
-class Db extends AbstractAdapter
+class Db extends AbstractAdapter implements ServiceManagerAwareInterface
 {
     /**
      * @var UserMapperInterface
@@ -99,7 +101,7 @@ class Db extends AbstractAdapter
 
         // regen the id
         $session = new SessionContainer($this->getStorage()->getNameSpace());
-        $session->getManager()->regenerateId();
+        //$session->getManager()->regenerateId();
 
         // Success!
         $e->setIdentity($userObject->getId());

@@ -107,7 +107,7 @@ class ModuleOptions extends AbstractOptions implements
      * @var string
      */
 
-    protected $tableName = 'user';
+    protected $tableName = 'users';
 
     /**
      * @var array

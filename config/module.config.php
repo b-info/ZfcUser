@@ -6,7 +6,11 @@ return array(
             'zfcuser' => __DIR__ . '/../view',
         ),
     ),
-
+    'service_manager' => array(
+        'aliases' => array(
+            'zfcuser_zend_db_adapter' => 'Zend\Db\Adapter\Adapter',
+        ),
+    ),
     'router' => array(
         'routes' => array(
             'zfcuser' => array(

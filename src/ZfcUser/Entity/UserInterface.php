@@ -78,7 +78,38 @@ interface UserInterface
      * @return UserInterface
      */
     public function setPassword($password);
+	
+    /**
+     * Get Tipo.
+     *
+     * @return string tipo
+     */
+    public function getTipo();
 
+    /**
+     * Set tipo.
+     *
+     * @param string $tipo
+     * @return UserInterface
+     */
+    public function setTipo($local);
+		
+    /**
+     * Get Local.
+     *
+     * @return string local
+     */
+    public function getLocal();
+
+    /**
+     * Set local.
+     *
+     * @param string $local
+     * @return UserInterface
+     */
+    public function setLocal($local);
+	
+	
     /**
      * Get state.
      *

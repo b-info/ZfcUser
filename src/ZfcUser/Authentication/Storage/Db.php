@@ -4,10 +4,11 @@ namespace ZfcUser\Authentication\Storage;
 
 use Zend\Authentication\Storage;
 use Zend\Authentication\Storage\StorageInterface;
+use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcUser\Mapper\UserInterface as UserMapper;
 
-class Db implements Storage\StorageInterface
+class Db implements Storage\StorageInterface, ServiceManagerAwareInterface
 {
     /**
      * @var StorageInterface
@@ -41,7 +42,7 @@ class Db implements Storage\StorageInterface
         if ($this->getStorage()->isEmpty()) {
             return true;
         }
-        $identity = $this->getStorage()->read();
+        $identity = $this->read();
         if ($identity === null) {
             $this->clear();
             return true;

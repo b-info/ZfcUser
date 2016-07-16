@@ -29,6 +29,18 @@ class User implements UserInterface
      */
     protected $password;
 
+	
+    /**
+     * @var string
+     */
+    protected $tipo;
+
+	
+    /**
+     * @var string
+     */
+    protected $local;
+
     /**
      * @var int
      */
@@ -144,6 +156,54 @@ class User implements UserInterface
         return $this;
     }
 
+	
+	
+    /**
+     * Get Tipo.
+     *
+     * @return string
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * Set tipo.
+     *
+     * @param string $password
+     * @return UserInterface
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+        return $this;
+    }
+	
+	
+    /**
+     * Get Local.
+     *
+     * @return string
+     */
+    public function getLocal()
+    {
+        return $this->local;
+    }
+
+    /**
+     * Set local.
+     *
+     * @param string $Local
+     * @return UserInterface
+     */
+    public function setLocal($Local)
+    {
+        $this->Local = $Local;
+        return $this;
+    }
+
+	
     /**
      * Get state.
      *

@@ -2,8 +2,11 @@
 
 namespace ZfcUser\Form;
 
+use Zend\Form\Form;
+use Zend\Form\Element\Csrf;
 use ZfcBase\Form\ProvidesEventsForm;
 use ZfcUser\Options\AuthenticationOptionsInterface;
+use ZfcUser\Module as ZfcUser;
 
 class ChangePassword extends ProvidesEventsForm
 {
@@ -29,7 +32,6 @@ class ChangePassword extends ProvidesEventsForm
 
         $this->add(array(
             'name' => 'credential',
-            'type' => 'password',
             'options' => array(
                 'label' => 'Current Password',
             ),
@@ -50,7 +52,6 @@ class ChangePassword extends ProvidesEventsForm
 
         $this->add(array(
             'name' => 'newCredentialVerify',
-            'type' => 'password',
             'options' => array(
                 'label' => 'Verify New Password',
             ),

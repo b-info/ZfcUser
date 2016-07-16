@@ -2,7 +2,6 @@
 
 namespace ZfcUserTest\Controller;
 
-use Zend\Form\FormElementManager;
 use ZfcUser\Controller\RedirectCallback;
 use ZfcUser\Controller\UserController as Controller;
 use Zend\Http\Response;
@@ -964,7 +963,7 @@ class UserControllerTest extends \PHPUnit_Framework_TestCase
      * @depend testActionControllHasIdentity
      */
     public function testSetterGetterServices(
-        $method,
+        $methode,
         $useServiceLocator,
         $servicePrototype,
         $serviceName,
@@ -988,17 +987,18 @@ class UserControllerTest extends \PHPUnit_Framework_TestCase
                 ->method('get')
                 ->with($serviceName)
                 ->will($this->returnValue($servicePrototype));
+
             $controller->setServiceLocator($serviceLocator);
         } else {
-            call_user_func(array($controller, 'set' . $method), $servicePrototype);
+            call_user_func(array($controller, 'set' . $methode), $servicePrototype);
         }
 
-        $result = call_user_func(array($controller, 'get' . $method));
+        $result = call_user_func(array($controller, 'get' . $methode));
         $this->assertInstanceOf(get_class($servicePrototype), $result);
         $this->assertSame($servicePrototype, $result);
 
         // we need two check for every case
-        $result = call_user_func(array($controller, 'get' . $method));
+        $result = call_user_func(array($controller, 'get' . $methode));
         $this->assertInstanceOf(get_class($servicePrototype), $result);
         $this->assertSame($servicePrototype, $result);
     }
@@ -1094,7 +1094,7 @@ class UserControllerTest extends \PHPUnit_Framework_TestCase
 
 
         return array(
-            // $method, $useServiceLocator, $servicePrototype, $serviceName, $loginFormCallback
+            // $methode, $useServiceLocator, $servicePrototype, $serviceName, $loginFormCallback
             array('UserService', true, new UserService(), 'zfcuser_user_service' ),
             array('UserService', false, new UserService(), null ),
             array('RegisterForm', true, new Form(), 'zfcuser_register_form' ),

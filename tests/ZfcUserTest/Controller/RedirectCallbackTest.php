@@ -226,7 +226,6 @@ class RedirectCallbackTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('zfcuser/login', 'zfcuser', '/user', 'getLoginRedirectRoute'),
-            array('zfcuser/authenticate', 'zfcuser', '/user', 'getLoginRedirectRoute'),
             array('zfcuser/logout', 'zfcuser/login', '/user/login', 'getLogoutRedirectRoute'),
             array('testDefault', 'zfcuser', '/home', false),
         );

@@ -23,19 +23,8 @@ class Register extends Base
         $this->setRegistrationOptions($options);
         parent::__construct($name);
 
-        if ($this->getRegistrationOptions()->getUseRegistrationFormCaptcha()) {
-            $this->add(array(
-                'name' => 'captcha',
-                'type' => 'Zend\Form\Element\Captcha',
-                'options' => array(
-                    'label' => 'Please type the following text',
-                    'captcha' => $this->getRegistrationOptions()->getFormCaptchaOptions(),
-                ),
-            ));
-        }
-
         $this->remove('userId');
-        if (!$this->getRegistrationOptions()->getEnableUsername()) {
+        if ($this->getRegistrationOptions()->getEnableUsername()) {
             $this->remove('username');
         }
         if (!$this->getRegistrationOptions()->getEnableDisplayName()) {
@@ -45,6 +34,7 @@ class Register extends Base
             $this->add($this->captchaElement, array('name'=>'captcha'));
         }
         $this->get('submit')->setLabel('Register');
+        $this->getEventManager()->trigger('init', $this);
     }
 
     public function setCaptchaElement(Captcha $captchaElement)

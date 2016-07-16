@@ -2,13 +2,28 @@
 
 namespace ZfcUserTest\Form;
 
-use ZfcUser\Form\Base as Form;
+use ZfcUserTest\Form\TestAsset\BaseExtension as Form;
 
 class BaseTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConstruct()
+    /**
+     * @dataProvider providerTestConstruct
+     */
+    public function testConstruct($useCaptcha = false)
     {
-        $form = new Form();
+        $options = $this->getMock('ZfcUser\Options\RegistrationOptionsInterface');
+        $options->expects($this->once())
+                ->method('getUseRegistrationFormCaptcha')
+                ->will($this->returnValue($useCaptcha));
+        if ($useCaptcha && class_exists('\Zend\Captcha\AbstractAdapter')) {
+            $captcha = $this->getMockForAbstractClass('\Zend\Captcha\AbstractAdapter');
+
+            $options->expects($this->once())
+                    ->method('getFormCaptchaOptions')
+                    ->will($this->returnValue($captcha));
+        }
+
+        $form = new Form($options);
 
         $elements = $form->getElements();
 
@@ -19,5 +34,13 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('passwordVerify', $elements);
         $this->assertArrayHasKey('submit', $elements);
         $this->assertArrayHasKey('userId', $elements);
+    }
+
+    public function providerTestConstruct()
+    {
+        return array(
+            array(true),
+            array(false)
+        );
     }
 }
