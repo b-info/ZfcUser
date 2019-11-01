@@ -1,5 +1,5 @@
 {
-    "name": "jonathands/zfc-user",
+    "name": "b-info/zfc-user",
     "description": "A generic user registration and authentication module for ZF2. Supports Zend\\Db and Doctrine2.",
     "type": "library",
     "license": "BSD-3-Clause",
