@@ -2,11 +2,6 @@
 
 namespace ZfcUser\Form;
 
-<<<<<<< HEAD
-use ZfcBase\Form\ProvidesEventsForm;
-use ZfcUser\Options\RegistrationOptionsInterface;
-=======
->>>>>>> 03c8d818807e5edf9cdc723a5460d6ed8ce9c550
 use ZfcUser\Options\AuthenticationOptionsInterface;
 
 class ChangeEmail extends ProvidesEventsForm
@@ -62,9 +57,6 @@ class ChangeEmail extends ProvidesEventsForm
             ),
         ));
 
-<<<<<<< HEAD
-        $this->getEventManager()->trigger('init', $this);
-=======
         $this->add(array(
             'name' => 'submit',
             'attributes' => array(
@@ -72,7 +64,6 @@ class ChangeEmail extends ProvidesEventsForm
                 'type'  => 'submit'
             ),
         ));
->>>>>>> 03c8d818807e5edf9cdc723a5460d6ed8ce9c550
     }
 
     /**
