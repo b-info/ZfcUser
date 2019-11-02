@@ -4,7 +4,6 @@ namespace ZfcUser\Form;
 
 use Zend\Form\Form;
 use Zend\Form\Element;
-use ZfcBase\Form\ProvidesEventsForm;
 use ZfcUser\Options\AuthenticationOptionsInterface;
 use ZfcUser\Module as ZfcUser;
 
@@ -18,6 +17,7 @@ class Login extends ProvidesEventsForm
     public function __construct($name, AuthenticationOptionsInterface $options)
     {
         $this->setAuthenticationOptions($options);
+
         parent::__construct($name);
 
         $this->add(array(
@@ -67,8 +67,6 @@ class Login extends ProvidesEventsForm
         $this->add($submitElement, array(
             'priority' => -100,
         ));
-
-        $this->getEventManager()->trigger('init', $this);
     }
 
     /**
@@ -80,6 +78,7 @@ class Login extends ProvidesEventsForm
     public function setAuthenticationOptions(AuthenticationOptionsInterface $authOptions)
     {
         $this->authOptions = $authOptions;
+
         return $this;
     }
 

@@ -2,9 +2,8 @@
 
 namespace ZfcUser\Mapper;
 
-use ZfcBase\Mapper\AbstractDbMapper;
 use ZfcUser\Entity\UserInterface as UserEntityInterface;
-use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Hydrator\HydratorInterface;
 
 class User extends AbstractDbMapper implements UserInterface
 {
@@ -14,9 +13,10 @@ class User extends AbstractDbMapper implements UserInterface
     {
         $select = $this->getSelect()
                        ->where(array('email' => $email));
-
         $entity = $this->select($select)->current();
+
         $this->getEventManager()->trigger('find', $this, array('entity' => $entity));
+
         return $entity;
     }
 
@@ -24,9 +24,10 @@ class User extends AbstractDbMapper implements UserInterface
     {
         $select = $this->getSelect()
                        ->where(array('username' => $username));
-
         $entity = $this->select($select)->current();
+
         $this->getEventManager()->trigger('find', $this, array('entity' => $entity));
+
         return $entity;
     }
 
@@ -34,9 +35,10 @@ class User extends AbstractDbMapper implements UserInterface
     {
         $select = $this->getSelect()
                        ->where(array('user_id' => $id));
-
         $entity = $this->select($select)->current();
+
         $this->getEventManager()->trigger('find', $this, array('entity' => $entity));
+
         return $entity;
     }
 
@@ -47,17 +49,19 @@ class User extends AbstractDbMapper implements UserInterface
 
     public function setTableName($tableName)
     {
-        $this->tableName=$tableName;
+        $this->tableName = $tableName;
     }
 
-    public function insert($entity, $tableName = null, HydratorInterface $hydrator = null)
+    public function insert(UserEntityInterface $entity, $tableName = null, HydratorInterface $hydrator = null)
     {
         $result = parent::insert($entity, $tableName, $hydrator);
+
         $entity->setId($result->getGeneratedValue());
+
         return $result;
     }
 
-    public function update($entity, $where = null, $tableName = null, HydratorInterface $hydrator = null)
+    public function update(UserEntityInterface $entity, $where = null, $tableName = null, HydratorInterface $hydrator = null)
     {
         if (!$where) {
             $where = array('user_id' => $entity->getId());

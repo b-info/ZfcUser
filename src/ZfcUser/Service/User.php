@@ -2,13 +2,14 @@
 
 namespace ZfcUser\Service;
 
+use Interop\Container\ContainerInterface;
 use Zend\Authentication\AuthenticationService;
 use Zend\Form\Form;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Crypt\Password\Bcrypt;
-use Zend\Stdlib\Hydrator;
-use ZfcBase\EventManager\EventProvider;
+use Zend\Hydrator;
+use ZfcUser\EventManager\EventProvider;
 use ZfcUser\Mapper\UserInterface as UserMapperInterface;
 use ZfcUser\Options\UserServiceOptionsInterface;
 
@@ -276,10 +277,10 @@ class User extends EventProvider implements ServiceManagerAwareInterface
     /**
      * Set service manager instance
      *
-     * @param ServiceManager $serviceManager
+     * @param ContainerInterface $serviceManager
      * @return User
      */
-    public function setServiceManager(ServiceManager $serviceManager)
+    public function setServiceManager(ContainerInterface $serviceManager)
     {
         $this->serviceManager = $serviceManager;
         return $this;
@@ -288,7 +289,7 @@ class User extends EventProvider implements ServiceManagerAwareInterface
     /**
      * Return the Form Hydrator
      *
-     * @return \Zend\Stdlib\Hydrator\ClassMethods
+     * @return \Zend\Hydrator\ClassMethods
      */
     public function getFormHydrator()
     {

@@ -4,13 +4,12 @@ namespace ZfcUser\Form;
 
 use Zend\Form\Form;
 use Zend\Form\Element;
-use ZfcBase\Form\ProvidesEventsForm;
 
 class Base extends ProvidesEventsForm
 {
-    public function __construct()
+    public function __construct($name = null)
     {
-        parent::__construct();
+        parent::__construct($name);
 
         $this->add(array(
             'name' => 'username',
@@ -96,5 +95,12 @@ class Base extends ProvidesEventsForm
         //$csrf = new Element\Csrf('csrf');
         //$csrf->getValidator()->setTimeout($this->getRegistrationOptions()->getUserFormTimeout());
         //$this->add($csrf);
+<<<<<<< HEAD
+=======
+    }
+
+    public function init()
+    {
+>>>>>>> 03c8d818807e5edf9cdc723a5460d6ed8ce9c550
     }
 }

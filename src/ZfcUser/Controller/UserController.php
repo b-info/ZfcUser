@@ -383,12 +383,6 @@ class UserController extends AbstractActionController
     public function setLoginForm(Form $loginForm)
     {
         $this->loginForm = $loginForm;
-        $fm = $this->flashMessenger()->setNamespace('zfcuser-login-form')->getMessages();
-        if (isset($fm[0])) {
-            $this->loginForm->setMessages(
-                array('identity' => array($fm[0]))
-            );
-        }
         return $this;
     }
 
@@ -453,5 +447,13 @@ class UserController extends AbstractActionController
     {
         $this->changeEmailForm = $changeEmailForm;
         return $this;
+    }
+
+    /**
+     * @param $serviceLocator
+     */
+    public function setServiceLocator($serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
     }
 }

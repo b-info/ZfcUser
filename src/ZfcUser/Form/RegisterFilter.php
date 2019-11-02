@@ -2,8 +2,7 @@
 
 namespace ZfcUser\Form;
 
-use ZfcBase\InputFilter\ProvidesEventsInputFilter;
-use ZfcUser\Module as ZfcUser;
+use ZfcUser\InputFilter\ProvidesEventsInputFilter;
 use ZfcUser\Options\RegistrationOptionsInterface;
 
 class RegisterFilter extends ProvidesEventsInputFilter
@@ -100,8 +99,6 @@ class RegisterFilter extends ProvidesEventsInputFilter
                 ),
             ),
         ));
-
-        $this->getEventManager()->trigger('init', $this);
     }
 
     public function getEmailValidator()

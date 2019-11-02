@@ -1,33 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Clayton Daley
- * Date: 5/6/2015
- * Time: 6:50 PM
- */
 
 namespace ZfcUser\Factory\Controller;
 
+use Interop\Container\ContainerInterface;
 use Zend\Mvc\Controller\ControllerManager;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfcUser\Controller\RedirectCallback;
 use ZfcUser\Controller\UserController;
 
 class UserControllerFactory implements FactoryInterface
 {
-
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $controllerManager
-     * @return mixed
-     */
-    public function createService(ServiceLocatorInterface $controllerManager)
+    public function __invoke(ContainerInterface $serviceManager, $requestedName, array $options = null)
     {
-        /* @var ControllerManager $controllerManager*/
-        $serviceManager = $controllerManager->getServiceLocator();
-
         /* @var RedirectCallback $redirectCallback */
         $redirectCallback = $serviceManager->get('zfcuser_redirect_callback');
 
@@ -43,5 +28,19 @@ class UserControllerFactory implements FactoryInterface
         $controller->setUserService($serviceManager->get('zfcuser_user_service'));
 
         return $controller;
+    }
+
+    /**
+     * Create service
+     *
+     * @param ServiceLocatorInterface $controllerManager
+     * @return mixed
+     */
+    public function createService(ServiceLocatorInterface $controllerManager)
+    {
+        /* @var ControllerManager $controllerManager*/
+        $serviceManager = $controllerManager->getServiceLocator();
+
+        return $this->__invoke($serviceManager, null);
     }
 }

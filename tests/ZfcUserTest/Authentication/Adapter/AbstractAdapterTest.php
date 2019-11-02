@@ -2,7 +2,6 @@
 
 namespace ZfcUserTest\Authentication\Adapter;
 
-
 use ZfcUserTest\Authentication\Adapter\TestAsset\AbstractAdapterExtension;
 
 class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
@@ -10,18 +9,17 @@ class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
     /**
      * The object to be tested.
      *
-     * @var adapter
+     * @var AbstractAdapterExtension
      */
     protected $adapter;
 
     public function setUp()
     {
-        $adapter = new AbstractAdapterExtension();
-        $this->adapter = $adapter;
+        $this->adapter = new AbstractAdapterExtension();
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\AbstractAdapter::getStorage
+     * @covers \ZfcUser\Authentication\Adapter\AbstractAdapter::getStorage
      */
     public function testGetStorageWithoutStorageSet()
     {
@@ -29,8 +27,8 @@ class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\AbstractAdapter::getStorage
-     * @covers ZfcUser\Authentication\Adapter\AbstractAdapter::setStorage
+     * @covers \ZfcUser\Authentication\Adapter\AbstractAdapter::getStorage
+     * @covers \ZfcUser\Authentication\Adapter\AbstractAdapter::setStorage
      */
     public function testSetGetStorage()
     {
@@ -43,7 +41,7 @@ class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\AbstractAdapter::isSatisfied
+     * @covers \ZfcUser\Authentication\Adapter\AbstractAdapter::isSatisfied
      */
     public function testIsSatisfied()
     {

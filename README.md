@@ -18,6 +18,16 @@ simple and easy to extend.
 
 More information and examples are available on the [ZfcUser Wiki](https://github.com/ZF-Commons/ZfcUser/wiki)
 
+Versions
+--------
+Please use below table to figure out what version of ZfcUser you should use.
+
+| ZfcUser version | Supported Zend Framework version | Status                                      |
+|-----------------|----------------------------------|---------------------------------------------|
+| 1.x             | <= 2.5                           | Security-fixes only                         |
+| 2.x             | >= 2.6 < 3                       | bug-fixes, security-fixes                   |
+| 3.x             | >= 3                             | New features, bug-fixes, security-fixes     |
+
 Storage Adapter Modules
 -----------------------
 
@@ -42,13 +52,8 @@ Features / Goals
 * User registration [COMPLETE]
 * Forms protected against CSRF [COMPLETE]
 * Out-of-the-box support for Doctrine2 _and_ Zend\Db [COMPLETE]
-* Registration form protected with CAPTCHA [IN PROGRESS] \(Needs more options\)
-* Robust event system to allow for extending [IN PROGRESS]
-* Support for additional authentication mechanisms via plugins (Google,
-  Facebook, LDAP, etc) [INCOMPLETE]
-* Optional E-mail address verification [INCOMPLETE]
-* Forgot Password [INCOMPLETE]
-* Provide ActionController plugin and view helper [INCOMPLETE]
+* Robust event system to allow for extending [COMPLETE]
+* Provide ActionController plugin and view helper [COMPLETE]
 
 Installation
 ------------
@@ -66,9 +71,9 @@ Installation
 1. Add this project and [ZfcBase](https://github.com/ZF-Commons/ZfcBase) in your composer.json:
 
     ```json
-    "require": {
-        "zf-commons/zfc-user": "dev-master"
-    }
+    "require": {  
+        "zf-commons/zfc-user": "^3.0"  
+    }  
     ```
 
 2. Now tell composer to download ZfcUser by running the command:

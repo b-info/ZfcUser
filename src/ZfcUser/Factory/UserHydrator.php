@@ -1,18 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Clayton Daley
- * Date: 5/6/2015
- * Time: 6:41 PM
- */
 
 namespace ZfcUser\Factory;
 
-use Zend\ServiceManager\FactoryInterface;
+use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class UserHydrator implements FactoryInterface
 {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        return new \Zend\Hydrator\ClassMethods();
+    }
+
 
     /**
      * Create service
@@ -22,6 +22,6 @@ class UserHydrator implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return new \Zend\Stdlib\Hydrator\ClassMethods();
+        return $this->__invoke($serviceLocator, null);
     }
 }

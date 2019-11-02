@@ -2,6 +2,7 @@
 
 namespace ZfcUserTest\Authentication\Adapter;
 
+use Zend\EventManager\Event;
 use ZfcUser\Authentication\Adapter\Db;
 
 class DbTest extends \PHPUnit_Framework_TestCase
@@ -16,35 +17,35 @@ class DbTest extends \PHPUnit_Framework_TestCase
     /**
      * Mock of AuthEvent.
      *
-     * @var authEvent
+     * @var \ZfcUser\Authentication\Adapter\AdapterChainEvent|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $authEvent;
 
     /**
      * Mock of Storage.
      *
-     * @var storage
+     * @var \Zend\Authentication\Storage\Session|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storage;
 
     /**
      * Mock of Options.
      *
-     * @var options
+     * @var \ZfcUser\Options\ModuleOptions|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $options;
 
     /**
      * Mock of Mapper.
      *
-     * @var mapper
+     * @var \ZfcUser\Mapper\UserInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $mapper;
 
     /**
      * Mock of User.
      *
-     * @var user
+     * @var \ZfcUser\Entity\UserInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $user;
 
@@ -59,10 +60,10 @@ class DbTest extends \PHPUnit_Framework_TestCase
         $options = $this->getMock('ZfcUser\Options\ModuleOptions');
         $this->options = $options;
 
-        $mapper = $this->getMock('ZfcUser\Mapper\User');
+        $mapper = $this->getMock('ZfcUser\Mapper\UserInterface');
         $this->mapper = $mapper;
 
-        $user = $this->getMock('ZfcUser\Entity\User');
+        $user = $this->getMock('ZfcUser\Entity\UserInterface');
         $this->user = $user;
 
         $this->db = new Db;
@@ -73,7 +74,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::logout
+     * @covers \ZfcUser\Authentication\Adapter\Db::logout
      */
     public function testLogout()
     {
@@ -84,7 +85,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::Authenticate
+     * @covers \ZfcUser\Authentication\Adapter\Db::Authenticate
      */
     public function testAuthenticateWhenSatisfies()
     {
@@ -108,12 +109,14 @@ class DbTest extends \PHPUnit_Framework_TestCase
             ->method('read')
             ->will($this->returnValue(array('identity' => 'ZfcUser')));
 
-        $result = $this->db->authenticate($this->authEvent);
+        $event = new Event(null, $this->authEvent);
+
+        $result = $this->db->authenticate($event);
         $this->assertNull($result);
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::Authenticate
+     * @covers \ZfcUser\Authentication\Adapter\Db::Authenticate
      */
     public function testAuthenticateNoUserObject()
     {
@@ -127,21 +130,22 @@ class DbTest extends \PHPUnit_Framework_TestCase
             ->method('setCode')
             ->with(\Zend\Authentication\Result::FAILURE_IDENTITY_NOT_FOUND)
             ->will($this->returnValue($this->authEvent));
-        $this->authEvent->expects($this->once(1))
+        $this->authEvent->expects($this->once())
             ->method('setMessages')
             ->with(array('A record with the supplied identity could not be found.'))
             ->will($this->returnValue($this->authEvent));
 
         $this->db->setOptions($this->options);
 
-        $result = $this->db->authenticate($this->authEvent);
+        $event = new Event(null, $this->authEvent);
+        $result = $this->db->authenticate($event);
 
         $this->assertFalse($result);
         $this->assertFalse($this->db->isSatisfied());
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::Authenticate
+     * @covers \ZfcUser\Authentication\Adapter\Db::Authenticate
      */
     public function testAuthenticationUserStateEnabledUserButUserStateNotInArray()
     {
@@ -171,14 +175,15 @@ class DbTest extends \PHPUnit_Framework_TestCase
         $this->db->setMapper($this->mapper);
         $this->db->setOptions($this->options);
 
-        $result = $this->db->authenticate($this->authEvent);
+        $event = new Event(null, $this->authEvent);
+        $result = $this->db->authenticate($event);
 
         $this->assertFalse($result);
         $this->assertFalse($this->db->isSatisfied());
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::Authenticate
+     * @covers \ZfcUser\Authentication\Adapter\Db::Authenticate
      */
     public function testAuthenticateWithWrongPassword()
     {
@@ -205,14 +210,15 @@ class DbTest extends \PHPUnit_Framework_TestCase
         $this->db->setMapper($this->mapper);
         $this->db->setOptions($this->options);
 
-        $result = $this->db->authenticate($this->authEvent);
+        $event = new Event(null, $this->authEvent);
+        $result = $this->db->authenticate($event);
 
         $this->assertFalse($result);
         $this->assertFalse($this->db->isSatisfied());
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::Authenticate
+     * @covers \ZfcUser\Authentication\Adapter\Db::Authenticate
      */
     public function testAuthenticationAuthenticatesWithEmail()
     {
@@ -254,11 +260,12 @@ class DbTest extends \PHPUnit_Framework_TestCase
         $this->db->setMapper($this->mapper);
         $this->db->setOptions($this->options);
 
-        $result = $this->db->authenticate($this->authEvent);
+        $event = new Event(null, $this->authEvent);
+        $result = $this->db->authenticate($event);
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::Authenticate
+     * @covers \ZfcUser\Authentication\Adapter\Db::Authenticate
      */
     public function testAuthenticationAuthenticates()
     {
@@ -307,11 +314,12 @@ class DbTest extends \PHPUnit_Framework_TestCase
         $this->db->setMapper($this->mapper);
         $this->db->setOptions($this->options);
 
-        $result = $this->db->authenticate($this->authEvent);
+        $event = new Event(null, $this->authEvent);
+        $result = $this->db->authenticate($event);
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::updateUserPasswordHash
+     * @covers \ZfcUser\Authentication\Adapter\Db::updateUserPasswordHash
      */
     public function testUpdateUserPasswordHashWithSameCost()
     {
@@ -336,7 +344,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::updateUserPasswordHash
+     * @covers \ZfcUser\Authentication\Adapter\Db::updateUserPasswordHash
      */
     public function testUpdateUserPasswordHashWithoutSameCost()
     {
@@ -376,9 +384,9 @@ class DbTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::preprocessCredential
-     * @covers ZfcUser\Authentication\Adapter\Db::setCredentialPreprocessor
-     * @covers ZfcUser\Authentication\Adapter\Db::getCredentialPreprocessor
+     * @covers \ZfcUser\Authentication\Adapter\Db::preprocessCredential
+     * @covers \ZfcUser\Authentication\Adapter\Db::setCredentialPreprocessor
+     * @covers \ZfcUser\Authentication\Adapter\Db::getCredentialPreprocessor
      */
     public function testPreprocessCredentialWithCallable()
     {
@@ -390,24 +398,24 @@ class DbTest extends \PHPUnit_Framework_TestCase
         };
         $this->db->setCredentialPreprocessor($callable);
 
-        $this->db->preprocessCredential('ZfcUser');
+        $this->db->preProcessCredential('ZfcUser');
         $this->assertTrue($testVar);
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::preprocessCredential
-     * @covers ZfcUser\Authentication\Adapter\Db::setCredentialPreprocessor
-     * @covers ZfcUser\Authentication\Adapter\Db::getCredentialPreprocessor
+     * @covers \ZfcUser\Authentication\Adapter\Db::preprocessCredential
+     * @covers \ZfcUser\Authentication\Adapter\Db::setCredentialPreprocessor
+     * @covers \ZfcUser\Authentication\Adapter\Db::getCredentialPreprocessor
      */
     public function testPreprocessCredentialWithoutCallable()
     {
         $this->db->setCredentialPreprocessor(false);
-        $this->assertSame('zfcUser', $this->db->preprocessCredential('zfcUser'));
+        $this->assertSame('zfcUser', $this->db->preProcessCredential('zfcUser'));
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::setServiceManager
-     * @covers ZfcUser\Authentication\Adapter\Db::getServiceManager
+     * @covers \ZfcUser\Authentication\Adapter\Db::setServiceManager
+     * @covers \ZfcUser\Authentication\Adapter\Db::getServiceManager
      */
     public function testSetGetServicemanager()
     {
@@ -422,7 +430,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::getOptions
+     * @covers \ZfcUser\Authentication\Adapter\Db::getOptions
      */
     public function testGetOptionsWithNoOptionsSet()
     {
@@ -441,8 +449,8 @@ class DbTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::setOptions
-     * @covers ZfcUser\Authentication\Adapter\Db::getOptions
+     * @covers \ZfcUser\Authentication\Adapter\Db::setOptions
+     * @covers \ZfcUser\Authentication\Adapter\Db::getOptions
      */
     public function testSetGetOptions()
     {
@@ -456,7 +464,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::getMapper
+     * @covers \ZfcUser\Authentication\Adapter\Db::getMapper
      */
     public function testGetMapperWithNoMapperSet()
     {
@@ -474,8 +482,8 @@ class DbTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ZfcUser\Authentication\Adapter\Db::setMapper
-     * @covers ZfcUser\Authentication\Adapter\Db::getMapper
+     * @covers \ZfcUser\Authentication\Adapter\Db::setMapper
+     * @covers \ZfcUser\Authentication\Adapter\Db::getMapper
      */
     public function testSetGetMapper()
     {

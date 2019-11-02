@@ -2,15 +2,24 @@
 
 namespace ZfcUser\Form;
 
+<<<<<<< HEAD
 use ZfcBase\Form\ProvidesEventsForm;
 use ZfcUser\Options\RegistrationOptionsInterface;
+=======
+>>>>>>> 03c8d818807e5edf9cdc723a5460d6ed8ce9c550
 use ZfcUser\Options\AuthenticationOptionsInterface;
 
 class ChangeEmail extends ProvidesEventsForm
 {
+    /**
+     * @var AuthenticationOptionsInterface
+     */
+    protected $authOptions;
+
     public function __construct($name, AuthenticationOptionsInterface $options)
     {
         $this->setAuthenticationOptions($options);
+
         parent::__construct($name);
 
         $this->add(array(
@@ -53,18 +62,29 @@ class ChangeEmail extends ProvidesEventsForm
             ),
         ));
 
+<<<<<<< HEAD
         $this->getEventManager()->trigger('init', $this);
+=======
+        $this->add(array(
+            'name' => 'submit',
+            'attributes' => array(
+                'value' => 'Submit',
+                'type'  => 'submit'
+            ),
+        ));
+>>>>>>> 03c8d818807e5edf9cdc723a5460d6ed8ce9c550
     }
 
     /**
      * Set Authentication-related Options
      *
      * @param AuthenticationOptionsInterface $authOptions
-     * @return Login
+     * @return ChangeEmail
      */
     public function setAuthenticationOptions(AuthenticationOptionsInterface $authOptions)
     {
         $this->authOptions = $authOptions;
+
         return $this;
     }
 

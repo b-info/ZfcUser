@@ -31,7 +31,7 @@ class AdapterChainServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected $serviceLocatorArray;
 
-    public function helperServiceLocator ($index)
+    public function helperServiceLocator($index)
     {
         return $this->serviceLocatorArray[$index];
     }
@@ -83,10 +83,9 @@ class AdapterChainServiceFactoryTest extends \PHPUnit_Framework_TestCase
                       ->method('getAuthAdapters')
                       ->will($this->returnValue($adapterNames));
 
-        $adapterChain = $this->factory->createService($this->serviceLocator);
+        $adapterChain = $this->factory->__invoke($this->serviceLocator, 'ZfcUser\Authentication\Adapter\AdapterChain');
 
         $this->assertInstanceOf('ZfcUser\Authentication\Adapter\AdapterChain', $adapterChain);
-        $this->assertEquals(array('authenticate', 'logout'), $adapterChain->getEventManager()->getEvents());
     }
 
     /**
